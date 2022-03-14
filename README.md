@@ -1,4 +1,4 @@
-[![Docker Image CI](https://github.com/adeslatt/transcriptome-summary-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/adeslatt/transcriptome-summary-docker/actions/workflows/docker-image.yml)
+[![Docker](https://github.com/adeslatt/transcriptome-summary-docker/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/adeslatt/transcriptome-summary-docker/actions/workflows/docker-publish.yml)[![Docker Image CI](https://github.com/adeslatt/transcriptome-summary-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/adeslatt/transcriptome-summary-docker/actions/workflows/docker-image.yml)
 # Transcriptome Summary
 
 This module prepares an isoform classification table and a gene info table 

@@ -5,7 +5,7 @@ This module prepares an isoform classification table and a gene info table
 Inputs:
 * sqanti classification file
 * (removed for this Container for now - kalliso tpm file)
-* (removed for this Container for now -  kalliso ribodepletion tpm file 
+* (removed for this Container for now -  kalliso ribodepletion tpm file)
 * ensg_to_gene mapping file 
 * enst_to_isoname mapping file 
 * gene_len_stats table 

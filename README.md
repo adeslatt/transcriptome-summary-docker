@@ -1,25 +1,38 @@
-# six_frame_translation
-[![Docker](https://github.com/adeslatt/six_frame_translation/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/adeslatt/six_frame_translation/actions/workflows/docker-publish.yml)[![Docker Image CI](https://github.com/adeslatt/six_frame_translation/actions/workflows/docker-image.yml/badge.svg)](https://github.com/adeslatt/six_frame_translation/actions/workflows/docker-image.yml)
+# Transcriptome Summary
 
-Six frame translation - as a container attribution [Long-Read-Proteogenomics/modules/six_frame_translation](https://github.com/sheynkman-lab/Long-Read-Proteogenomics#readme)
+This module prepares an isoform classification table and a gene info table 
 
+Inputs:
+* sqanti classification file
+* (removed for this Container for now - kalliso tpm file)
+* (removed for this Container for now -  kalliso ribodepletion tpm file 
+* ensg_to_gene mapping file 
+* enst_to_isoname mapping file 
+* gene_len_stats table 
 
-Pulled this out from the nextflow workflow so masterfully created by Ben Jordan of the Sheynkman Lab
+Outputs:
+* sqanti isoform table 
+* gene level info table 
 
-## Six-Frame Translation
- * Generates a fasta file of all possible protein sequences
- * derivable from each PacBio transcript, by translating the
- * fasta file in all six frames (3+, 3-). This is used to examine
- * what peptides could theoretically match the peptides found via
- * a mass spectrometry search against GENCODE.
+For running the transcriptome summary per cluster
 
-## Assumptions
+                                                                                                                                                                                               
+THE MOST IMPORTANT THING HERE IS THE PRODUCTION OF THE PACBIO-GENE REFERENCE TABLE                                                                                                            
+In our case here we will have one pacbio-gene reference per cluster                                                                                                                           
+                                                                                                                                                                                               
+input:                                                                                                                                                                                       
+    file(sqanti_classification) from ch_sample_classification_transcriptome                                                                                                                    
+    file(tpm) from ch_sample_kallisto                                                                                                                                                          
+    file(ribo) from ch_normalized_ribo_kallisto                                                                                                                                                
+    file(ensg_to_gene) from ch_ensg_gene                                                                                                                                                       
+    file(enst_to_isoname) from ch_enst_isoname                                                                                                                                                 
+    file(len_stats) from ch_gene_lens_transcriptome                                                                                                                                            
+output:                                                                                                                                                                                       
+  file("gene_level_tab.tsv") into ch_gene_level                                                                                                                                                
+  file("sqanti_isoform_info.tsv") into ch_sqanti_isoform_info                                                                                                                                  
+  file("pb_gene.tsv") into ch_pb_gene                                                                                                                                                          
 
-All of the steps were hand run by mannually running each of the steps of the [Long-Read-Proteogenomics Nextflow Workflow main.nf](https://github.com/sheynkman-lab/Long-Read-Proteogenomics#main.nf) -- Future will be pulling this into a Nextflow Workflow -- but these steps are useful to understand in their completion before assembling them into a masterful Nextflow Workflow.
-
-The data we are working with are Single Cell Long Read RNA-seq or PacBio ISOSeq files.
-
-* PacBio IsoSeq files - in this case, these were pulled into Bar-Code Clusters determined by the partner samples short read RNAseq files.  
+PacBio IsoSeq files - in this case, these were pulled into Bar-Code Clusters determined by the partner samples short read RNAseq files.  
 * Each cluster then was annotated with Sqanti
 * Each cluster Filtered
 * Each cluster Collapsed
@@ -27,14 +40,14 @@ The data we are working with are Single Cell Long Read RNA-seq or PacBio ISOSeq 
 
 See the [singleCellLongReadAnalysis/bin](https://github.com/Wellstein-lab/singleCellLongReadAnalysis/bin) directory for the steps broken down as separate shell scripts.
 
-This sixframe docker image is run after having building with GitHub actions the Dockerfile in this repository and publishing it on GitHub.
+This transcriptome-summary-docker image is run after having building with GitHub actions the Dockerfile in this repository and publishing it on GitHub.
 
 First step I pulled it locally 
 ```bash
-docker pull ghcr.io/adeslatt/six_frame_translation:sha256-ae3c04adb8bdeb613ededc737b555af5740a2329293a3549014d1c8873390d43.sig
+docker pull ghcr.io/adeslatt/transcriptome_summary:latest
 ```
 
-Docker image build with name `sixframe`.
+Docker image build with name `transcriptome_summary`.
 
 And then I ran the command to run this locally -- this is one example of the long filenames that result as you step through the [Long-Read-Proteogenomics Nextflow Workflow main.nf](https://github.com/sheynkman-lab/Long-Read-Proteogenomics#main.nf) 
 
